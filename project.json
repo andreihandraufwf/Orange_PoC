@@ -82,6 +82,24 @@
         "testCaseId": "cba2d17f-56fa-4375-a7c4-7251c3b9cf5b",
         "testCaseType": "TestCase",
         "fileName": "Tests\\WorkflowTestCaseTemplate.xaml"
+      },
+      {
+        "editingStatus": "InProgress",
+        "testCaseId": "50db8068-9787-4aaf-8303-fcc891d8ff8c",
+        "testCaseType": "TestCase",
+        "fileName": "TestCase_Remove_Rows.xaml"
+      },
+      {
+        "editingStatus": "InProgress",
+        "testCaseId": "9b187037-55b4-40ec-966d-a3cdeafa78fb",
+        "testCaseType": "TestCase",
+        "fileName": "TestCase_CreateRownameList.xaml"
+      },
+      {
+        "editingStatus": "InProgress",
+        "testCaseId": "a5e0f785-a587-4a7b-973d-9f7e7d3eaa0a",
+        "testCaseType": "TestCase",
+        "fileName": "TestCase_Create_CompaniiWorkbook.xaml"
       }
     ],
     "modernBehavior": false
