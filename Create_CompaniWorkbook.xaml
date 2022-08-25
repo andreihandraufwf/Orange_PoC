@@ -1,11 +1,12 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Create_CompaniWorkbook" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Create_CompaniWorkbook" this:Create_CompaniWorkbook.in_workbookPath="Data\Output\Companii.xlsx" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="in_dttransactionData" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="in_workbookPath" Type="InArgument(x:String)" />
   </x:Members>
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1207.33333333333,1136.66666666667</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1207.33333333333,1548</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Create_CompaniWorkbook_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="31">
@@ -43,7 +44,7 @@
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
-    <scg:List x:TypeArguments="AssemblyReference" Capacity="28">
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="56">
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
@@ -71,20 +72,25 @@
       <AssemblyReference>System.ValueTuple</AssemblyReference>
       <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
       <AssemblyReference>NPOI</AssemblyReference>
-      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Create_CompaniiWorkbook" sap:VirtualizedContainerService.HintSize="602,1072" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="Create_CompaniiWorkbook" sap:VirtualizedContainerService.HintSize="602,1483.33333333333" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="scg:List(x:String)" Name="cuiList" />
       <Variable x:TypeArguments="sd:DataTable" Name="dtCuiData" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dtMinMaxMed" />
+      <Variable x:TypeArguments="scg:List(x:String)" Name="minList" />
+      <Variable x:TypeArguments="scg:List(x:String)" Name="medList" />
+      <Variable x:TypeArguments="scg:List(x:String)" Name="maxList" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <Assign sap:VirtualizedContainerService.HintSize="560,62" sap2010:WorkflowViewState.IdRef="Assign_1">
+    <ui:LogMessage DisplayName="Log Message to indicate beginning of workflow" sap:VirtualizedContainerService.HintSize="560,94.6666666666667" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Opening Create_Companii Workbook&quot;]" />
+    <Assign DisplayName="Initialize CUI List" sap:VirtualizedContainerService.HintSize="560,62" sap2010:WorkflowViewState.IdRef="Assign_1">
       <Assign.To>
         <OutArgument x:TypeArguments="scg:List(x:String)">[cuiList]</OutArgument>
       </Assign.To>
@@ -92,7 +98,7 @@
         <InArgument x:TypeArguments="scg:List(x:String)">[new List(Of String)]</InArgument>
       </Assign.Value>
     </Assign>
-    <Assign sap:VirtualizedContainerService.HintSize="560,62" sap2010:WorkflowViewState.IdRef="Assign_3">
+    <Assign DisplayName="Initialize CUI Data Table" sap:VirtualizedContainerService.HintSize="560,62" sap2010:WorkflowViewState.IdRef="Assign_3">
       <Assign.To>
         <OutArgument x:TypeArguments="sd:DataTable">[dtCuiData]</OutArgument>
       </Assign.To>
@@ -100,36 +106,43 @@
         <InArgument x:TypeArguments="sd:DataTable">[new DataTable]</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:ForEachRow ColumnNames="{x:Null}" CurrentIndex="{x:Null}" DataTable="[in_dttransactionData]" DisplayName="For Each Row in Data Table" sap:VirtualizedContainerService.HintSize="560,776" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+    <Assign sap:VirtualizedContainerService.HintSize="560,62" sap2010:WorkflowViewState.IdRef="Assign_4">
+      <Assign.To>
+        <OutArgument x:TypeArguments="sd:DataTable">[dtMinMaxMed]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="sd:DataTable">[new DataTable]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:ForEachRow ColumnNames="{x:Null}" CurrentIndex="{x:Null}" DataTable="[in_dttransactionData]" DisplayName="For Each Row in Input Data" sap:VirtualizedContainerService.HintSize="560,816" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
       <ui:ForEachRow.Body>
         <ActivityAction x:TypeArguments="sd:DataRow">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="sd:DataRow" Name="currentRow" />
           </ActivityAction.Argument>
-          <Sequence sap:VirtualizedContainerService.HintSize="526,657.333333333333" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <Sequence DisplayName="Create Sheets with Needed Data from Initial Input" sap:VirtualizedContainerService.HintSize="526,697.333333333333" sap2010:WorkflowViewState.IdRef="Sequence_2">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <If Condition="[Not cuiList.Contains(currentRow(&quot;CUI&quot;).ToString)]" sap:VirtualizedContainerService.HintSize="484,565.333333333333" sap2010:WorkflowViewState.IdRef="If_1">
+            <If Condition="[Not cuiList.Contains(currentRow(&quot;CUI&quot;).ToString)]" DisplayName="If the current CUI was not previously added to the list" sap:VirtualizedContainerService.HintSize="484,605.333333333333" sap2010:WorkflowViewState.IdRef="If_1">
               <If.Then>
-                <Sequence sap:VirtualizedContainerService.HintSize="376,370.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                <Sequence DisplayName="Get all data with that CUI and add CUI to List" sap:VirtualizedContainerService.HintSize="376,410.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_3">
                   <sap:WorkflowViewStateService.ViewState>
                     <scg:Dictionary x:TypeArguments="x:String, x:Object">
                       <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                     </scg:Dictionary>
                   </sap:WorkflowViewStateService.ViewState>
-                  <AddToCollection x:TypeArguments="x:String" Collection="[cuiList]" DisplayName="Add To Collection" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="AddToCollection`1_1" Item="[currentRow(&quot;CUI&quot;).ToString]" />
-                  <Assign sap:VirtualizedContainerService.HintSize="334,62" sap2010:WorkflowViewState.IdRef="Assign_2">
-                    <Assign.To>
-                      <OutArgument x:TypeArguments="sd:DataTable">[dtCUIData]</OutArgument>
-                    </Assign.To>
-                    <Assign.Value>
-                      <InArgument x:TypeArguments="sd:DataTable">[in_dttransactionData.AsEnumerable.Where(Function(row) row("CUI").ToString.Equals(currentRow("CUI").ToString)).CopyToDataTable]</InArgument>
-                    </Assign.Value>
-                  </Assign>
-                  <ui:WriteRange StartingCell="{x:Null}" AddHeaders="False" DataTable="[dtCuiData]" DisplayName="Write Range" sap:VirtualizedContainerService.HintSize="334,114.666666666667" sap2010:WorkflowViewState.IdRef="WriteRange_1" SheetName="[CurrentRow(&quot;CUI&quot;).ToString]" WorkbookPath="Data\Output\Companii.xlsx" />
+                  <ui:InvokeCode ContinueOnError="{x:Null}" Code="'Here the CUI is added to the list&#xD;&#xA;cuiList.Add(currentRow(&quot;CUI&quot;).ToString)&#xD;&#xA;'Here all data corresponding to current CUI is added to a datatable which&#xD;&#xA;'will be placed in an excel under the sheet named after the current CUI&#xD;&#xA;dtCuiData = in_dttransactionData.AsEnumerable.Where(Function(row) row(&quot;CUI&quot;).ToString.Equals(currentRow(&quot;CUI&quot;).ToString)).CopyToDataTable&#xD;&#xA;" DisplayName="Invoke code to get data and add CUI to List" sap:VirtualizedContainerService.HintSize="334,164" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
+                    <ui:InvokeCode.Arguments>
+                      <InArgument x:TypeArguments="sd:DataRow" x:Key="currentRow">[currentRow]</InArgument>
+                      <InOutArgument x:TypeArguments="scg:List(x:String)" x:Key="cuiList">[cuiList]</InOutArgument>
+                      <InOutArgument x:TypeArguments="sd:DataTable" x:Key="dtCuiData">[dtCuiData]</InOutArgument>
+                      <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dttransactionData">[in_dttransactionData]</InArgument>
+                    </ui:InvokeCode.Arguments>
+                  </ui:InvokeCode>
+                  <ui:WriteRange StartingCell="{x:Null}" AddHeaders="True" DataTable="[dtCuiData]" DisplayName="Write CUI Data to CUI Worksheet" sap:VirtualizedContainerService.HintSize="334,114.666666666667" sap2010:WorkflowViewState.IdRef="WriteRange_1" SheetName="[CurrentRow(&quot;CUI&quot;).ToString]" WorkbookPath="[in_workbookPath]" />
                 </Sequence>
               </If.Then>
               <If.Else>
@@ -146,5 +159,6 @@
         </ActivityAction>
       </ui:ForEachRow.Body>
     </ui:ForEachRow>
+    <ui:LogMessage DisplayName="Log Message to indicate end of workflow" sap:VirtualizedContainerService.HintSize="560,94.6666666666667" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Companii Workbook Created&quot;]" />
   </Sequence>
 </Activity>

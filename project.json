@@ -100,6 +100,12 @@
         "testCaseId": "a5e0f785-a587-4a7b-973d-9f7e7d3eaa0a",
         "testCaseType": "TestCase",
         "fileName": "TestCase_Create_CompaniiWorkbook.xaml"
+      },
+      {
+        "editingStatus": "InProgress",
+        "testCaseId": "4692ec34-b84f-455c-9963-d58547258c28",
+        "testCaseType": "TestCase",
+        "fileName": "TestCase_GetDepSubFunc.xaml"
       }
     ],
     "modernBehavior": false
