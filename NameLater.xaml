@@ -91,24 +91,12 @@
     <ui:ReadRange Range="{x:Null}" AddHeaders="True" DataTable="[dttransactionData]" DisplayName="Read Range" sap:VirtualizedContainerService.HintSize="762.666666666667,86.6666666666667" sap2010:WorkflowViewState.IdRef="ReadRange_1" SheetName="[in_transactionItem]" WorkbookPath="[in_companiiPath]" />
     <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Get_MinMaxMed workflow" sap:VirtualizedContainerService.HintSize="762.666666666667,114" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Get_MinMaxMed.xaml">
       <ui:InvokeWorkflowFile.Arguments>
-        <InArgument x:TypeArguments="x:String" x:Key="in_reportFile">
-          <Literal x:TypeArguments="x:String">Data\Output\MinMaxMed.xlsx</Literal>
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_transactionItem">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_transactionItem" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_copmaniiFile">
-          <Literal x:TypeArguments="x:String">Data\Output\Companii.xlsx</Literal>
-        </InArgument>
-        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dttransactionData">
-          <mva:VisualBasicValue x:TypeArguments="sd:DataTable" ExpressionText="new DataTable" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_cuiDepSubFunc">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_transactionItem" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_category">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_transactionItem" />
-        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_reportFile">Data\Output\MinMaxMed.xlsx</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_transactionItem">[in_transactionItem]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_copmaniiFile">Data\Output\Companii.xlsx</InArgument>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dttransactionData">[new DataTable]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_cuiDepSubFunc">[in_transactionItem]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_category">[in_transactionItem]</InArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
     <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="762.666666666667,692" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[in_depSubFuncList]">
