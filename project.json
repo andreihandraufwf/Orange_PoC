@@ -3,10 +3,13 @@
   "description": "Robotic Enterprise Framework",
   "main": "Main.xaml",
   "dependencies": {
+    "ImageToPDFConverter.Activities": "[1.0.1]",
     "UiPath.Excel.Activities": "[2.12.3]",
+    "UiPath.Mail.Activities": "[1.15.2]",
     "UiPath.System.Activities": "[22.4.4]",
     "UiPath.Testing.Activities": "[22.4.3]",
-    "UiPath.UIAutomation.Activities": "[22.4.7]"
+    "UiPath.UIAutomation.Activities": "[22.4.7]",
+    "UiPathTeam.SharePoint.Activities": "[1.7.0]"
   },
   "webServices": [],
   "entitiesStores": [],
@@ -87,25 +90,43 @@
         "editingStatus": "InProgress",
         "testCaseId": "50db8068-9787-4aaf-8303-fcc891d8ff8c",
         "testCaseType": "TestCase",
-        "fileName": "TestCase_Remove_Rows.xaml"
-      },
-      {
-        "editingStatus": "InProgress",
-        "testCaseId": "9b187037-55b4-40ec-966d-a3cdeafa78fb",
-        "testCaseType": "TestCase",
-        "fileName": "TestCase_CreateRownameList.xaml"
-      },
-      {
-        "editingStatus": "InProgress",
-        "testCaseId": "a5e0f785-a587-4a7b-973d-9f7e7d3eaa0a",
-        "testCaseType": "TestCase",
-        "fileName": "TestCase_Create_CompaniiWorkbook.xaml"
+        "fileName": "Tests\\PersonalTests\\TestCase_Remove_Rows.xaml"
       },
       {
         "editingStatus": "InProgress",
         "testCaseId": "4692ec34-b84f-455c-9963-d58547258c28",
         "testCaseType": "TestCase",
-        "fileName": "TestCase_GetDepSubFunc.xaml"
+        "fileName": "Tests\\PersonalTests\\TestCase_GetDepSubFunc.xaml"
+      },
+      {
+        "editingStatus": "InProgress",
+        "testCaseId": "143ed07b-01d0-48a4-9844-97a33ed48eb1",
+        "testCaseType": "TestCase",
+        "fileName": "Tests\\PersonalTests\\TestCase_Get_MinMaxMed.xaml"
+      },
+      {
+        "editingStatus": "InProgress",
+        "testCaseId": "9b187037-55b4-40ec-966d-a3cdeafa78fb",
+        "testCaseType": "TestCase",
+        "fileName": "Tests\\PersonalTests\\TestCase_CreateRownameList.xaml"
+      },
+      {
+        "editingStatus": "InProgress",
+        "testCaseId": "7e6a2b4b-a686-4c3c-bfe3-8011af0ff88b",
+        "testCaseType": "TestCase",
+        "fileName": "Tests\\PersonalTests\\TestCase_CreateMinMaxMed.xlsx.xaml"
+      },
+      {
+        "editingStatus": "InProgress",
+        "testCaseId": "a5e0f785-a587-4a7b-973d-9f7e7d3eaa0a",
+        "testCaseType": "TestCase",
+        "fileName": "Tests\\PersonalTests\\TestCase_Create_CompaniiWorkbook.xaml"
+      },
+      {
+        "editingStatus": "InProgress",
+        "testCaseId": "7f9f4eff-1559-428c-a94a-7857ace07697",
+        "testCaseType": "TestCase",
+        "fileName": "Tests\\PersonalTests\\TestCase_Upload_Zip_ToSharepoint.xaml"
       }
     ],
     "modernBehavior": false

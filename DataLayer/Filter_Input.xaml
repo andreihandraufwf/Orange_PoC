@@ -6,7 +6,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1207.33333333333,1269.33333333333</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1266.66666666667,1214</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Remove_Rows_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="54">
@@ -41,7 +41,7 @@
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
-    <scg:List x:TypeArguments="AssemblyReference" Capacity="26">
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="52">
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
@@ -66,11 +66,13 @@
       <AssemblyReference>System.ValueTuple</AssemblyReference>
       <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
       <AssemblyReference>NPOI</AssemblyReference>
-      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
       <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPathTeam.SharePoint</AssemblyReference>
+      <AssemblyReference>OfficeDevPnP.Core</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="This workflow removes every row thatc contain a positive value in at least one of the two columns and also rows that equal 0 in another column&#xD;&#xA;" DisplayName="Remove_Rows" sap:VirtualizedContainerService.HintSize="376,1204.66666666667" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="This workflow Filters the input data as per the requirements specified in PDD.&#xA;" DisplayName="Filter_Input" sap:VirtualizedContainerService.HintSize="376,1149.33333333333" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="scg:List(x:String)" Name="rowList" />
     </Sequence.Variables>
@@ -80,42 +82,29 @@
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="334,62.6666666666667" sap2010:WorkflowViewState.IdRef="WriteLine_2" Text="[io_dtTransactionData.Rows(1)(&quot;CM MATERNITATE&quot;).ToString]" />
-    <ui:InvokeCode ContinueOnError="{x:Null}" Code="'First the rows containing a number greater than 0 in either of the columns specified&#xD;&#xA;'are removed&#xD;&#xA;io_dtTransactionData = io_dtTransactionData.AsEnumerable().Where(Function(row) CInt(row(&quot;CM MATERNITATE&quot;))=0 AND CInt(row(&quot;CM RISC MATERNAL&quot;))=0).CopyToDataTable&#xD;&#xA;&#xD;&#xA;'Then the rows containing 0 in specified column are removed&#xD;&#xA;io_dtTransactionData = io_dtTransactionData.AsEnumerable().Where(Function(row) CInt(row(&quot;NR ORE LUNA&quot;)) &gt;0).CopyToDataTable&#xD;&#xA;&#xD;&#xA;" DisplayName="Invoke code" sap:VirtualizedContainerService.HintSize="334,164" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
+    <ui:LogMessage DisplayName="Log Message to indicate beginning of workflow" sap:VirtualizedContainerService.HintSize="334,94.6666666666667" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Opening Filter_Input Workflow&quot;]" />
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="'First the rows containing a number greater than 0 in either of the columns specified&#xD;&#xA;'are removed&#xD;&#xA;io_dtTransactionData = io_dtTransactionData.AsEnumerable().Where(Function(row) CInt(row(&quot;CM MATERNITATE&quot;))=0 AND CInt(row(&quot;CM RISC MATERNAL&quot;))=0).CopyToDataTable&#xD;&#xA;&#xD;&#xA;'Then the rows containing 0 in specified column are removed&#xD;&#xA;io_dtTransactionData = io_dtTransactionData.AsEnumerable().Where(Function(row) CInt(row(&quot;NR ORE LUNA&quot;)) &gt;0).CopyToDataTable&#xD;&#xA;&#xD;&#xA;" DisplayName="Invoke code to remove specified columns" sap:VirtualizedContainerService.HintSize="334,164" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
       <ui:InvokeCode.Arguments>
-        <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_dtTransactionData">
-          <mva:VisualBasicReference x:TypeArguments="sd:DataTable" ExpressionText="io_dtTransactionData" />
-        </InOutArgument>
+        <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_dtTransactionData">[io_dtTransactionData]</InOutArgument>
       </ui:InvokeCode.Arguments>
     </ui:InvokeCode>
-    <ui:InvokeCode ContinueOnError="{x:Null}" Code="'Here all row items containg a value between specified parameters are assigned 0&#xD;&#xA;For Each row As Data.DataRow In io_dtTransactionData.Rows&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;If CDbl(row(&quot;PARTE VARIABILA NET&quot;))&gt;0.00 And CDbl(row(&quot;PARTE VARIABILA NET&quot;))&lt;99.99 Then&#xD;&#xA;&#x9;&#x9;row(&quot;PARTE VARIABILA NET&quot;) = &quot;0&quot;&#xD;&#xA;&#x9;End If&#xD;&#xA;&#x9;&#xD;&#xA;Next&#xD;&#xA;&#x9;" DisplayName="Invoke code" sap:VirtualizedContainerService.HintSize="334,164" sap2010:WorkflowViewState.IdRef="InvokeCode_2">
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="'Here all row items containg a value between specified parameters are assigned 0&#xD;&#xA;For Each row As Data.DataRow In io_dtTransactionData.Rows&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;If CDbl(row(&quot;PARTE VARIABILA NET&quot;))&gt;0.00 And CDbl(row(&quot;PARTE VARIABILA NET&quot;))&lt;99.99 Then&#xD;&#xA;&#x9;&#x9;row(&quot;PARTE VARIABILA NET&quot;) = &quot;0&quot;&#xD;&#xA;&#x9;End If&#xD;&#xA;&#x9;&#xD;&#xA;Next&#xD;&#xA;&#x9;" DisplayName="Invoke code to change value to row items" sap:VirtualizedContainerService.HintSize="334,164" sap2010:WorkflowViewState.IdRef="InvokeCode_2">
       <ui:InvokeCode.Arguments>
-        <InArgument x:TypeArguments="sd:DataTable" x:Key="io_dtTransactionData">
-          <mva:VisualBasicValue x:TypeArguments="sd:DataTable" ExpressionText="io_dtTransactionData" />
-        </InArgument>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="io_dtTransactionData">[io_dtTransactionData]</InArgument>
       </ui:InvokeCode.Arguments>
     </ui:InvokeCode>
-    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Create_RownameList workflow" sap:VirtualizedContainerService.HintSize="334,114" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Create_RownameList.xaml">
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke Create_RownameList workflow" sap:VirtualizedContainerService.HintSize="334,114" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="BusinessLayer\Create_RownameList.xaml">
       <ui:InvokeWorkflowFile.Arguments>
-        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">
-          <mva:VisualBasicValue x:TypeArguments="scg:Dictionary(x:String, x:Object)" ExpressionText="in_Config" />
-        </InArgument>
-        <OutArgument x:TypeArguments="scg:List(x:String)" x:Key="out_rowList">
-          <mva:VisualBasicReference x:TypeArguments="scg:List(x:String)" ExpressionText="rowList" />
-        </OutArgument>
+        <InArgument x:TypeArguments="scg:Dictionary(x:String, x:Object)" x:Key="in_Config">[in_Config]</InArgument>
+        <OutArgument x:TypeArguments="scg:List(x:String)" x:Key="out_rowList">[rowList]</OutArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
-    <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="334,62.6666666666667" sap2010:WorkflowViewState.IdRef="WriteLine_3" Text="[rowList.Count.ToString]" />
-    <ui:InvokeCode ContinueOnError="{x:Null}" Code="Dim dttransitoryTable As New DataTable&#xD;&#xA;dttransitoryTable = io_dtTransactionData.Copy()&#xD;&#xA;For Each column As Data.DataColumn In dttransitoryTable.Columns&#xD;&#xA;&#x9;If&#x9;Not rowList.Contains(column.ColumnName.ToLower.Trim) Then&#xD;&#xA;&#x9;&#x9;io_dtTransactionData.Columns.Remove(column.ColumnName)&#xD;&#xA;&#x9;End If&#xD;&#xA;&#x9;Next&#xD;&#xA;&#x9;&#xD;&#xA;io_dtTransactionData = io_dtTransactionData.AsEnumerable.Where(Function(row) row(&quot;CUI&quot;) isnot &quot;&quot;).CopyToDataTable&#xD;&#xA;&#x9;&#x9;" DisplayName="Invoke code" sap:VirtualizedContainerService.HintSize="334,164" sap2010:WorkflowViewState.IdRef="InvokeCode_3">
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="Dim dttransitoryTable As New DataTable&#xA;dttransitoryTable = io_dtTransactionData.Copy()&#xA;For Each column As Data.DataColumn In dttransitoryTable.Columns&#xA;&#x9;If&#x9;Not rowList.Contains(column.ColumnName.ToLower.Trim) Then&#xA;&#x9;&#x9;io_dtTransactionData.Columns.Remove(column.ColumnName)&#xA;&#x9;End If&#xA;&#x9;Next&#xA;&#x9;&#xA;io_dtTransactionData = io_dtTransactionData.AsEnumerable.Where(Function(row) row(&quot;CUI&quot;) isnot &quot;&quot;).CopyToDataTable&#xA;&#x9;&#x9;" DisplayName="Invoke code to get only the rows in list" sap:VirtualizedContainerService.HintSize="334,164" sap2010:WorkflowViewState.IdRef="InvokeCode_3">
       <ui:InvokeCode.Arguments>
-        <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_dtTransactionData">
-          <mva:VisualBasicReference x:TypeArguments="sd:DataTable" ExpressionText="io_dtTransactionData" />
-        </InOutArgument>
-        <InArgument x:TypeArguments="scg:List(x:String)" x:Key="rowList">
-          <mva:VisualBasicValue x:TypeArguments="scg:List(x:String)" ExpressionText="rowList" />
-        </InArgument>
+        <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_dtTransactionData">[io_dtTransactionData]</InOutArgument>
+        <InArgument x:TypeArguments="scg:List(x:String)" x:Key="rowList">[rowList]</InArgument>
       </ui:InvokeCode.Arguments>
     </ui:InvokeCode>
-    <WriteLine DisplayName="Write Line" sap:VirtualizedContainerService.HintSize="334,62.6666666666667" sap2010:WorkflowViewState.IdRef="WriteLine_1" Text="[io_dtTransactionData.Rows(0).ToString]" />
+    <ui:LogMessage DisplayName="Message to indicate end of workflow" sap:VirtualizedContainerService.HintSize="334,94.6666666666667" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Input has been filtered&quot;]" />
   </Sequence>
 </Activity>

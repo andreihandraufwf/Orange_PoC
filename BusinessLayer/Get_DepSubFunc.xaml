@@ -7,7 +7,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1207.33333333333,825.333333333333</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1266.66666666667,825.333333333333</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Get_DepSubFunc_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
@@ -68,21 +68,21 @@
       <AssemblyReference>System.ValueTuple</AssemblyReference>
       <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
       <AssemblyReference>NPOI</AssemblyReference>
-      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
       <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>OfficeDevPnP.Core</AssemblyReference>
+      <AssemblyReference>UiPathTeam.SharePoint</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="This workflow takes the name of all the departments, subdepartments and functions in given CUI Sheet and puts them in a list" DisplayName="Get_DepSubFunc" sap:VirtualizedContainerService.HintSize="376,420" sap2010:WorkflowViewState.IdRef="Sequence_1">
-    <Sequence.Variables>
-      <Variable x:TypeArguments="scg:List(sd:DataRow)" Name="rowList" />
-    </Sequence.Variables>
+  <Sequence sap2010:Annotation.AnnotationText="This workflow takes the name of all the departments, subdepartments and functions in given CUI Sheet and puts them in a list" DisplayName="Get_DepSubFunc" sap:VirtualizedContainerService.HintSize="376,554.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <Assign sap:VirtualizedContainerService.HintSize="334,62" sap2010:WorkflowViewState.IdRef="Assign_2">
+    <ui:LogMessage DisplayName="Log Message to indicate beginning of workflow" sap:VirtualizedContainerService.HintSize="334,94.6666666666667" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Opening Get_DepSubFunc Workflow&quot;]" />
+    <Assign DisplayName="Initialize List" sap:VirtualizedContainerService.HintSize="334,62" sap2010:WorkflowViewState.IdRef="Assign_2">
       <Assign.To>
         <OutArgument x:TypeArguments="scg:List(x:String)">[out_depSubFuncList]</OutArgument>
       </Assign.To>
@@ -90,7 +90,7 @@
         <InArgument x:TypeArguments="scg:List(x:String)">[new list(oF String)]</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:InvokeCode ContinueOnError="{x:Null}" Code="Try&#xD;&#xA;out_depSubFuncList = New List(Of String)&#xD;&#xA;Dim transitoryList As List(Of String)&#xD;&#xA;transitoryList = New List(Of String)&#xD;&#xA;For Each columnname As String In Split(in_depSubFunc,&quot;;&quot;)&#xD;&#xA;console.WriteLine(columnname)&#xD;&#xA;out_depSubFuncList.Add(columnname)&#xD;&#xA;transitoryList = (From row As DataRow In in_dttransactionData.rows.Cast(Of DataRow)() Select Convert.ToString(row(columnname))).Distinct().ToList&#xD;&#xA;out_depSubFuncList = out_depSubFuncList.Concat(transitoryList).ToList&#xD;&#xA;Next&#xD;&#xA;For Each item As String In out_depSubFuncList&#xD;&#xA;&#x9;Console.WriteLine(item)&#xD;&#xA;&#x9;Next&#xD;&#xA;Catch e As Exception&#xD;&#xA;&#x9;console.WriteLine(e)&#xD;&#xA;End Try" DisplayName="Invoke code" sap:VirtualizedContainerService.HintSize="334,164" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="Try&#xA;out_depSubFuncList = New List(Of String)&#xA;Dim transitoryList As List(Of String)&#xA;transitoryList = New List(Of String)&#xA;For Each columnname As String In Split(in_depSubFunc,&quot;;&quot;)&#xA;console.WriteLine(columnname)&#xA;out_depSubFuncList.Add(columnname)&#xA;transitoryList = (From row As DataRow In in_dttransactionData.rows.Cast(Of DataRow)() Select Convert.ToString(row(columnname))).Distinct().ToList&#xA;out_depSubFuncList = out_depSubFuncList.Concat(transitoryList).ToList&#xA;Next&#xA;For Each item As String In out_depSubFuncList&#xA;&#x9;Console.WriteLine(item)&#xA;&#x9;Next&#xA;Catch e As Exception&#xA;&#x9;console.WriteLine(e)&#xA;End Try" DisplayName="Invoke code to get each department, subdep, and function" sap:VirtualizedContainerService.HintSize="334,164" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
       <ui:InvokeCode.Arguments>
         <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dttransactionData">
           <mva:VisualBasicValue x:TypeArguments="sd:DataTable" ExpressionText="in_dttransactionData" />

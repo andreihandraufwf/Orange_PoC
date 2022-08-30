@@ -1,6 +1,7 @@
 <Activity mc:Ignorable="sap sap2010" x:Class="Write_MinMaxMed" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="in_dttransactionData" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="in_centralizatorPath" Type="InArgument(x:String)" />
   </x:Members>
   <this:Write_MinMaxMed.in_dttransactionData>
     <InArgument x:TypeArguments="sd:DataTable" />
@@ -8,7 +9,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1207.33333333333,825.333333333333</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1266.66666666667,825.333333333333</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Write_MinMaxMed_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="30">
@@ -45,7 +46,7 @@
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
-    <scg:List x:TypeArguments="AssemblyReference" Capacity="22">
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="44">
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
@@ -68,9 +69,18 @@
       <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
       <AssemblyReference>System.Memory</AssemblyReference>
       <AssemblyReference>System.Reflection.Metadata</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>NPOI</AssemblyReference>
+      <AssemblyReference>OfficeDevPnP.Core</AssemblyReference>
+      <AssemblyReference>UiPathTeam.SharePoint</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="This workflow writes the min max med datatable to the excel" DisplayName="Write_MinMaxMed" sap:VirtualizedContainerService.HintSize="756,576.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="This workflow writes the min max med datatable to the excel" DisplayName="Write_MinMaxMed" sap:VirtualizedContainerService.HintSize="756,711.333333333333" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:Boolean" Name="fileExists" />
     </Sequence.Variables>
@@ -80,13 +90,14 @@
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:FileExistsX DisplayName="File Exists" Exists="[fileExists]" sap:VirtualizedContainerService.HintSize="714,135.333333333333" sap2010:WorkflowViewState.IdRef="FileExistsX_1" Path="[Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), &quot;Trx_Test.xlsx&quot;)]" />
-    <If Condition="[fileExists]" sap:VirtualizedContainerService.HintSize="714,278.666666666667" sap2010:WorkflowViewState.IdRef="If_1">
+    <ui:LogMessage DisplayName="Log Message to indicate beginning of workflow" sap:VirtualizedContainerService.HintSize="714,94.6666666666667" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Opening Wirte_MinMaxMed&quot;]" />
+    <ui:FileExistsX DisplayName="MinMaxMed File Exists" Exists="[fileExists]" sap:VirtualizedContainerService.HintSize="714,135.333333333333" sap2010:WorkflowViewState.IdRef="FileExistsX_1" Path="[in_centralizatorPath]" />
+    <If Condition="[fileExists]" DisplayName="If it exists" sap:VirtualizedContainerService.HintSize="714,278.666666666667" sap2010:WorkflowViewState.IdRef="If_1">
       <If.Then>
-        <ui:AppendRange DataTable="[in_dttransactionData]" DisplayName="Append Range" sap:VirtualizedContainerService.HintSize="334,114.666666666667" sap2010:WorkflowViewState.IdRef="AppendRange_1" SheetName="Sheet1" WorkbookPath="[Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), &quot;Trx_Test.xlsx&quot;)]" />
+        <ui:AppendRange DataTable="[in_dttransactionData]" DisplayName="Append Range in workbook" sap:VirtualizedContainerService.HintSize="334,114.666666666667" sap2010:WorkflowViewState.IdRef="AppendRange_1" SheetName="Centralizator" WorkbookPath="[in_centralizatorPath]" />
       </If.Then>
       <If.Else>
-        <ui:WriteRange StartingCell="{x:Null}" AddHeaders="True" DataTable="[in_dttransactionData]" DisplayName="Write Range" sap:VirtualizedContainerService.HintSize="334,114.666666666667" sap2010:WorkflowViewState.IdRef="WriteRange_1" SheetName="Sheet1" WorkbookPath="[Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), &quot;Trx_Test.xlsx&quot;)]" />
+        <ui:WriteRange StartingCell="{x:Null}" AddHeaders="True" DataTable="[in_dttransactionData]" DisplayName="Write Workbook" sap:VirtualizedContainerService.HintSize="334,114.666666666667" sap2010:WorkflowViewState.IdRef="WriteRange_1" SheetName="Centralizator" WorkbookPath="[in_centralizatorPath]" />
       </If.Else>
     </If>
   </Sequence>
